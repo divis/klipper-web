@@ -1,6 +1,5 @@
-.github
+.github/*.old
 .vscode
-.gitignore
 klippy-env
 moonraker-env
 *.csv
