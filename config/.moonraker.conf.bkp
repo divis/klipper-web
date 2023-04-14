@@ -1,0 +1,39 @@
+[server]
+host = 0.0.0.0
+port = 7125
+
+[file_manager]
+queue_gcode_uploads = True
+enable_object_processing = True
+
+[job_queue]
+load_on_startup = True
+
+[data_store]
+temperature_store_size = 1800
+gcode_store_size = 1000
+
+[database]
+
+[authorization]
+force_logins = false
+cors_domains = 
+	*.local
+trusted_clients = 
+	127.0.0.0/8
+	192.168.54.0/24
+	FE80::/10
+	::1/128
+
+[octoprint_compat]
+
+[history]
+
+[update_manager]
+enable_system_updates = False
+enable_auto_refresh = True
+
+[machine]
+provider = none
+validate_service = False
+

@@ -31,22 +31,22 @@ RUN apt-get update && \
 	liblmdb-dev \
 	libsodium-dev
 
-RUN sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 RUN locale-gen
 RUN python -m pip install -U pip wheel && \
     pip wheel --no-cache-dir -w ${WHEELS} supervisord-dependent-startup gpiod numpy matplotlib
 
-ENV LC_ALL en_GB.UTF-8 
-ENV LANG en_GB.UTF-8  
-ENV LANGUAGE en_GB:en   
+ENV LC_ALL en_US.UTF-8 
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en   
 
 USER ${USER}
 WORKDIR ${HOME}
 
 ### Klipper setup ###
 RUN git clone --single-branch --branch ${KLIPPER_BRANCH} https://github.com/Klipper3d/klipper.git klipper
-RUN git clone --single-branch --branch master https://github.com/protoloft/klipper_z_calibration.git klipper_z_calibration
-RUN ln -sf klipper_z_calibration/z_calibration.py klipper/klippy/extras/z_calibration.py
+# RUN git clone --single-branch --branch master https://github.com/protoloft/klipper_z_calibration.git klipper_z_calibration
+# RUN ln -sf klipper_z_calibration/z_calibration.py klipper/klippy/extras/z_calibration.py
 RUN [ ! -d ${KLIPPER_VENV_DIR} ] && python3 -m venv ${KLIPPER_VENV_DIR}
 
 WORKDIR ${HOME}/klipper
@@ -89,20 +89,20 @@ RUN apt-get update && \
     rsync \
     supervisor \
     zlib1g-dev && \
-    sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen && \
+    sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen && \
     # Clean up
     apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 
-ENV LC_ALL en_GB.UTF-8 
-ENV LANG en_GB.UTF-8  
-ENV LANGUAGE en_GB:en   
+ENV LC_ALL en_US.UTF-8 
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en   
 
 ARG USER=klippy
 ARG HOME=/home/${USER}
-ENV CONFIG_DIR=${HOME}/.config
+ENV CONFIG_DIR=${HOME}/printer_data/config
 ENV KLIPPER_VENV_DIR=${HOME}/klippy-env
 ENV MOONRAKER_VENV_DIR=${HOME}/moonraker-env
 
@@ -131,9 +131,11 @@ RUN pip install --no-index -f ${WHEELS} supervisord-dependent-startup gpiod nump
 USER ${USER}
 WORKDIR ${HOME}
 
-RUN mkdir -p ${HOME}/gcode_files ${CONFIG_DIR} ${HOME}/.moonraker ${HOME}/.moonraker_database ${HOME}/.klipper_repo_backup ${HOME}/.moonraker_repo_backup
+# RUN mkdir -p ${HOME}/gcodes ${CONFIG_DIR} ${HOME}/.moonraker ${HOME}/printer_data/moonraker_database ${HOME}/.klipper_repo_backup ${HOME}/.moonraker_repo_backup
+RUN mkdir -p ${HOME}/printer_data/gcodes ${CONFIG_DIR} ${HOME}/.moonraker ${HOME}/.klipper_repo_backup ${HOME}/.moonraker_repo_backup
 
-VOLUME ${HOME}/gcode_files
+# VOLUME ${HOME}/gcodes
+VOLUME ${HOME}/printer_data/gcodes
 VOLUME ${CONFIG_DIR}
 
 EXPOSE 7125
@@ -141,7 +143,7 @@ EXPOSE 7125
 USER root
 
 COPY --chown=${USER}:${USER} --from=builder ${HOME}/klipper/out/klipper.elf /usr/local/bin/klipper_mcu
-COPY --chown=${USER}:${USER} --from=builder ${HOME}/klipper_z_calibration ${HOME}/klipper_z_calibration
+# COPY --chown=${USER}:${USER} --from=builder ${HOME}/klipper_z_calibration ${HOME}/klipper_z_calibration
 COPY --chown=${USER}:${USER} --from=builder ${HOME}/klipper ${HOME}/klipper
 COPY --chown=${USER}:${USER} --from=builder ${KLIPPER_VENV_DIR} ${KLIPPER_VENV_DIR}
 COPY --chown=${USER}:${USER} --from=builder ${HOME}/moonraker ${HOME}/moonraker

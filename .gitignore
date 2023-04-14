@@ -1,4 +1,5 @@
-printer.cfg
-!config/printer.cfg
-.config
-build
+.gitignore
+klippy-env
+moonraker-env
+*.csv
+*.png
