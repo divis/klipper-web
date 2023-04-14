@@ -6,7 +6,7 @@
     {
       "label": "Build Klipper Image",
       "type": "shell",
-      "command": "docker build --pull --rm -f '${workspaceFolder}/klipper/Dockerfile' -t dimalo/klipper-moonraker:next ${workspaceFolder}",
+      "command": "docker build --pull --rm -f '${workspaceFolder}/klipper/Dockerfile' -t divis/klipper-moonraker:next ${workspaceFolder}",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -15,7 +15,7 @@
     {
       "label": "Run Klipper Image",
       "type": "shell",
-      "command": "docker run -it --rm --cap-add SYS_NICE dimalo/klipper-moonraker:next",
+      "command": "docker run -it --rm --cap-add SYS_NICE divis/klipper-moonraker:next",
       "group": {
         "kind": "none",
         "isDefault": true

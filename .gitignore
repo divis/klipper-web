@@ -1,3 +1,5 @@
+.github
+.vscode
 .gitignore
 klippy-env
 moonraker-env
