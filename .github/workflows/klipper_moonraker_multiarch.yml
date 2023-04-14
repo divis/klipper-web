@@ -25,7 +25,7 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y%m%d-%H%M')"
+        run: echo "{date}=$(date +'%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
 
       - name: Prepare
         id: prep
@@ -59,9 +59,9 @@ jobs:
           fi
 
           # Set output parameters.
-          echo ::set-output name=tags::${TAGS}
-          echo ::set-output name=docker_image::${DOCKER_IMAGE}
-          echo ::set-output name=base_tag::${BASE_TAG}
+          echo "{tags}=${TAGS}" >> $GITHUB_OUTPUT
+          echo "{docker_image}=${DOCKER_IMAGE}" >> $GITHUB_OUTPUT
+          echo "{base_tag}=${BASE_TAG}" >> $GITHUB_OUTPUT
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@master
@@ -85,7 +85,8 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
           file: ./klipper/Dockerfile
-          platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+          # platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+          platforms: linux/amd64
           push: true
           tags: ${{ steps.prep.outputs.tags }}
           cache-from: type=registry,ref=${{ steps.prep.outputs.docker_image }}:${{ steps.prep.outputs.base_tag }}
