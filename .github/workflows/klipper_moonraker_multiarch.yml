@@ -1,4 +1,5 @@
-name: Klipper Moonraker Multiarch Image CI
+# name: Klipper Moonraker Multiarch Image CI
+name: Klipper Moonraker Image CI
 
 on:
   push:
