@@ -6,7 +6,7 @@
     {
       "label": "Build Klipper Image",
       "type": "shell",
-      "command": "docker build --pull --rm -f '${workspaceFolder}/klipper/Dockerfile' -t divis/klipper-moonraker:next ${workspaceFolder}",
+      "command": "./scripts/build.sh -f '/klipper/Dockerfile' -t 'divis/klipper-moonraker' -w '${workspaceFolder}'",
       "group": {
         "kind": "build",
         "isDefault": true
