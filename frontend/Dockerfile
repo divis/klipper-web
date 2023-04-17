@@ -12,6 +12,7 @@ FROM nginx:alpine as image
 
 ENV KLIPPER_HOST klipper
 ENV KLIPPER_API_PORT 7125
+# JPEG streamer if needed in the docker image
 # ENV JPEG_STREAM_HOST localhost
 # ENV JPEG_STREAM_PORT 8888
 
