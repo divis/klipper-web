@@ -13,7 +13,7 @@ jobs:
   consecutiveness:
     runs-on: ubuntu-latest
     steps:
-    - uses: mktcode/consecutive-workflow-action@main
+    - uses: divis/consecutive-workflow-action@main
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 
